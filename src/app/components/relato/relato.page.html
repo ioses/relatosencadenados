@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-button slot="start"fill="clear" routerLink="/home">
+      <ion-icon style="color:#fff; font-size: 25px" name="arrow-round-back"></ion-icon>
+    </ion-button>
+    <ion-title>Título relato</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<!--
+<div *ngIf="rel">
+    <ion-card *ngFor = "let comentario of rel.comentarios">
+        <ion-card-content>
+            {{comentario.content}}
+        </ion-card-content>
+      </ion-card>
+     
+</div>
+ -->
+ <ion-label >
+  <h2 (click)="GoToRelatoPadre()" class="ion-text-center">{{relato.parent_phrase.text_parent_phrase}}</h2>
+  <p class="ion-text-justify">{{relato.story_text}}</p>
+  <h3 class="ion-text-center">{{relato.last_phrase}}</h3>
+</ion-label>
+
+<ion-slides  [options]="slideOpts">
+
+  <ion-slide *ngFor="let relatoHijo of relatosHijos" (click)="openRelato(relato)">
+      <ion-avatar slot="start">
+          <ion-img [src]="relatoHijo.image"></ion-img>
+      </ion-avatar>
+      <ion-label>
+      <!--  <h2>{{relatoHijo.FrasePadre.TextoFrasePadre}}</h2>-->
+        <p>{{relatoHijo.story_text}}</p>
+        <h3>{{relatoHijo.last_phrase}}</h3>
+      </ion-label>
+    </ion-slide>
+
+</ion-slides>
+<br/>
+<p (click)="nuevoRelato()" text-center >Continuar relato</p>
+<br/>
+<!--routerLink="/signup"-->
+
+</ion-content>
+
+<ion-footer padding>
+  <!--
+  <ion-item>
+    <ion-textarea [(ngModel)]="msg"></ion-textarea>
+    <ion-button color="success" (click)="sendComentario()">
+      <ion-icon name="send" ></ion-icon>
+    </ion-button>
+  </ion-item>
+  -->
+</ion-footer>
