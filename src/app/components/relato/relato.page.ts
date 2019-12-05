@@ -59,10 +59,48 @@ export class RelatoPage implements OnInit {
 
   console.log(this.relatosHijos);
 
-})
+    })
+  }
 
+  getRelatosHijosByRelato(relato){
+    this.relatosService.getRelatosHijos(relato.id).subscribe(relatos =>{
+      this.relatosHijos = relatos;
 
+      console.log(this.relatosHijos);
+    })
+  }
 
+  getRelatosHijosByRelatoId(relato_id){
+    this.relatosService.getRelatosHijos(relato_id).subscribe(relatos =>{
+      this.relatosHijos = relatos;
+
+      console.log(this.relatosHijos);
+    })
+  }
+
+  openRelato(relato){
+
+    console.log(relato);
+
+    this.relatosService.getRelato(relato.id).subscribe(relato =>{
+      this.relato = relato;
+      console.log(this.relato);
+    })
+
+    this.getRelatosHijosByRelato(relato);
+
+  }
+
+  goToRelatoPadre(){
+
+    var relato_id = this.relato.parent_phrase.id_parent_phrase;
+
+    this.relatosService.getRelato(relato_id).subscribe(relato =>{
+      this.relato = relato;
+      console.log(this.relato);
+    })
+
+    this.getRelatosHijosByRelatoId(relato_id);
   }
 
 }

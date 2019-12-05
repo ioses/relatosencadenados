@@ -17,6 +17,10 @@ import { Router, NavigationExtras} from  '@angular/router';
 export class HomePage implements OnInit{
 
   public relatosCompletos: any = [];
+  public usersTodos: any = [];
+
+  public relatosUsers: any = [];
+
 
 
   constructor(private authService: AuthService,
@@ -30,12 +34,29 @@ export class HomePage implements OnInit{
 
   ngOnInit(){
     this.relatoService.getRelatos().subscribe(relatos => {
-
         this.relatosCompletos = relatos;
-
       console.log(this.relatosCompletos);
-
     })
+   
+    this.relatoService.getUsers().subscribe(users =>{
+      this.usersTodos = users;
+      console.log(this.usersTodos);
+    })
+  
+    for (let i = 0; i < this.relatosCompletos.length; i++) {
+      for (let j = 0; j < this.usersTodos.length; j++) {
+        if(this.relatosCompletos[i].user_id == this.usersTodos[j].uid){
+          var relatoUser = [this.relatosCompletos[i], this.usersTodos[j]];
+
+          this.relatosUsers.push(relatoUser);
+          console.log(relatoUser);
+        }
+        
+        
+      }
+      
+    }
+
   }
 
   openRelato(relato){

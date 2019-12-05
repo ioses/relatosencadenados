@@ -8,19 +8,23 @@ import * as firebase from 'firebase/app';
 
 import { parent_phraseFirebase } from '../models/parent_phrase';
 import { relatoFirebase } from '../models/relato';
+import { userFirebase } from '../models/user';
 
 export interface relato{
   relato: relatoFirebase
   id: string
 }
 
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class RelatosService {
 
-  constructor(private db: AngularFirestore) { }
+  public user: any;
 
+  constructor(private db: AngularFirestore) { }
 
 getRelatos(){
   return this.db.collection('Relatos').snapshotChanges().pipe(map(relatos =>{
@@ -32,8 +36,22 @@ getRelatos(){
   }))
 }
 
+getUsers(){
+  return this.db.collection('users').snapshotChanges().pipe(map(users =>{
+    return users.map(a=>{
+      const data = a.payload.doc.data() as userFirebase;
+      return data;
+    })
+  }))
+}
+
 getRelato(relato_id: string){
   return this.db.collection('Relatos').doc(relato_id).valueChanges()
+}
+
+getUser (user_id: string){
+  console.log(user_id);
+  return this.db.collection('users').doc(user_id).valueChanges();
 }
 
 sendComentToFirebase(comentario: message, relato_id){
@@ -42,12 +60,14 @@ sendComentToFirebase(comentario: message, relato_id){
   });
 }
 
-sendNuevoRelato(textoNuevoRelato: string, ultimaFraseNuevoRelato: string, relato_padre_id: string, relato_padre_ultima_frase: string){
+sendNuevoRelato(textoNuevoRelato: string, ultimaFraseNuevoRelato: string, relato_padre_id: string, relato_padre_ultima_frase: string, user: userFirebase){
 
   const parent_phrase: parent_phraseFirebase = {
     id_parent_phrase:  relato_padre_id,
     text_parent_phrase: relato_padre_ultima_frase
   }
+
+
 
   this.db.collection('Relatos').add({
     
@@ -59,7 +79,8 @@ sendNuevoRelato(textoNuevoRelato: string, ultimaFraseNuevoRelato: string, relato
     date: firestore.FieldValue.serverTimestamp(),
     comments: [],
     tag: [],
-    user_id: firebase.auth().currentUser.uid.toString()
+    user_id: firebase.auth().currentUser.uid.toString(),
+    user: user
 
   }).then((doc)=>{
 

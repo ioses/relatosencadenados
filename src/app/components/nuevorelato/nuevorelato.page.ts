@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as firebase from 'firebase/app';
 
 import { RelatosService } from '../../servicios/relatos.service';
 
@@ -13,6 +14,7 @@ export class NuevorelatoPage implements OnInit {
   relatoPadre: any;
   textoNuevoRelato: string;
   ultimaFraseNuevoRelato: string;
+  user: any;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -26,16 +28,25 @@ export class NuevorelatoPage implements OnInit {
   }
 
   ngOnInit() {
+
+    this.relatosService.getUser(firebase.auth().currentUser.uid.toString()).subscribe(u =>{
+      this.user = u;
+      console.log('hola');
+    })
   }
 
 
   sendNuevoRelato(){
     console.log(this.textoNuevoRelato);
     console.log(this.ultimaFraseNuevoRelato);
+
+    
+
     this.relatosService.sendNuevoRelato(this.textoNuevoRelato, 
                                         this.ultimaFraseNuevoRelato, 
                                         this.relatoPadre.id,
-                                        this.relatoPadre.last_phrase);
+                                        this.relatoPadre.last_phrase,
+                                        this.user);
   }
 
 }

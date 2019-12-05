@@ -1,6 +1,7 @@
 import { parent_phraseFirebase } from './parent_phrase';
 import { likesFirebase } from './like';
 import { commentFirebase } from './comment';
+import { userFirebase } from './user';
 
 export interface relatoFirebase{
     parent_phrase: parent_phraseFirebase
@@ -12,4 +13,5 @@ export interface relatoFirebase{
     comments: commentFirebase []
     tag: string []
     user_id: string
+    user: userFirebase
 }
