@@ -13,12 +13,12 @@
   </ion-label>
 
   <ion-item>
-    <ion-textarea [(ngModel)]="textoNuevoRelato"></ion-textarea>
+    <ion-textarea maxlength="850" [(ngModel)]="textoNuevoRelato"></ion-textarea>
     
   </ion-item>
 
   <ion-item>
-      <ion-textarea [(ngModel)]="ultimaFraseNuevoRelato"></ion-textarea>
+      <ion-textarea maxlength="75" [(ngModel)]="ultimaFraseNuevoRelato"></ion-textarea>
     <ion-button color="success" (click)="sendNuevoRelato()">
        <ion-icon name="send" ></ion-icon>
     </ion-button>

@@ -24,10 +24,24 @@ export class RelatosService {
 
   public user: any;
 
+  pageSize: number = 10; //define el numero de posts que se cargan
+  cursor: any;
+
   constructor(private db: AngularFirestore) { }
 
 getRelatos(){
-  return this.db.collection('Relatos').snapshotChanges().pipe(map(relatos =>{
+  return this.db.collection('Relatos', ref=>ref.orderBy('date','desc').limit(this.pageSize)).snapshotChanges().pipe(map(relatos =>{
+    return relatos.map(a =>{
+      const data = a.payload.doc.data() as relato;
+      data.id = a.payload.doc.id;
+      return data;
+    })
+  }))
+
+}
+
+loadMoreRelatos (event){
+  return this.db.collection('Relatos', ref => ref.orderBy('date','desc').startAfter(this.cursor).limit(this.pageSize)).snapshotChanges().pipe(map(relatos=>{
     return relatos.map(a =>{
       const data = a.payload.doc.data() as relato;
       data.id = a.payload.doc.id;
@@ -35,6 +49,7 @@ getRelatos(){
     })
   }))
 }
+
 
 getUsers(){
   return this.db.collection('users').snapshotChanges().pipe(map(users =>{
@@ -60,14 +75,17 @@ sendComentToFirebase(comentario: message, relato_id){
   });
 }
 
-sendNuevoRelato(textoNuevoRelato: string, ultimaFraseNuevoRelato: string, relato_padre_id: string, relato_padre_ultima_frase: string, user: userFirebase){
+sendNuevoRelato(textoNuevoRelato: string, 
+                ultimaFraseNuevoRelato: string, 
+                relato_padre_id: string, 
+                relato_padre_ultima_frase: string, 
+                user: userFirebase,
+                scale: any){
 
   const parent_phrase: parent_phraseFirebase = {
     id_parent_phrase:  relato_padre_id,
     text_parent_phrase: relato_padre_ultima_frase
   }
-
-
 
   this.db.collection('Relatos').add({
     
@@ -79,7 +97,8 @@ sendNuevoRelato(textoNuevoRelato: string, ultimaFraseNuevoRelato: string, relato
     date: firestore.FieldValue.serverTimestamp(),
     comments: [],
     tag: [],
-    user_id: firebase.auth().currentUser.uid.toString(),
+   // user_id: firebase.auth().currentUser.uid.toString(),
+    scale: scale+1,
     user: user
 
   }).then((doc)=>{

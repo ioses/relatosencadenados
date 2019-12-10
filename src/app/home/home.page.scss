@@ -1,1 +1,9 @@
+app-home {
 
+    ion-item.item.item-block.item-ios,
+    ion-item.item.item-block.item-md {
+      display: flex;
+      align-items: flex-start; // <---- This does the trick!
+    }
+  
+  }

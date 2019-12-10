@@ -31,7 +31,7 @@ export class NuevorelatoPage implements OnInit {
 
     this.relatosService.getUser(firebase.auth().currentUser.uid.toString()).subscribe(u =>{
       this.user = u;
-      console.log('hola');
+      console.log(this.relatoPadre);
     })
   }
 
@@ -46,7 +46,8 @@ export class NuevorelatoPage implements OnInit {
                                         this.ultimaFraseNuevoRelato, 
                                         this.relatoPadre.id,
                                         this.relatoPadre.last_phrase,
-                                        this.user);
+                                        this.user,
+                                        this.relatoPadre.scale);
   }
 
 }
