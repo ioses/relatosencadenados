@@ -1,5 +1,7 @@
 {
   "name": "RelatosEncadenados",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

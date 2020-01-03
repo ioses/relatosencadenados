@@ -56,16 +56,19 @@ export class RelatoPage implements OnInit {
    this.relatosService.getRelatosHijos(this.relato.id).subscribe(relatos => {
 
     this.relatosHijos = relatos;
-
-  console.log(this.relatosHijos);
+ 
 
     })
+
   }
 
   getRelatosHijosByRelato(relato){
     this.relatosService.getRelatosHijos(relato.id).subscribe(relatos =>{
       this.relatosHijos = relatos;
-
+      for (let index = 0; index < this.relatosHijos.length; index++) {
+        const element = this.relatosHijos[index];
+        this.relatosHijos[index].add("Texto Añadido");
+      }
       console.log(this.relatosHijos);
     })
   }

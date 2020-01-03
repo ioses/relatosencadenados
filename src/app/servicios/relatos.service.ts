@@ -13,7 +13,10 @@ import { userFirebase } from '../models/user';
 export interface relato{
   relato: relatoFirebase
   id: string
+
 }
+
+
 
 
 
@@ -51,23 +54,11 @@ loadMoreRelatos (event){
 }
 
 
-getUsers(){
-  return this.db.collection('users').snapshotChanges().pipe(map(users =>{
-    return users.map(a=>{
-      const data = a.payload.doc.data() as userFirebase;
-      return data;
-    })
-  }))
-}
-
 getRelato(relato_id: string){
   return this.db.collection('Relatos').doc(relato_id).valueChanges()
 }
 
-getUser (user_id: string){
-  console.log(user_id);
-  return this.db.collection('users').doc(user_id).valueChanges();
-}
+
 
 sendComentToFirebase(comentario: message, relato_id){
   this.db.collection('Relatos').doc(relato_id).update({
@@ -93,6 +84,7 @@ sendNuevoRelato(textoNuevoRelato: string,
     image: "",
     likes: [],
     story_text: textoNuevoRelato,
+  //  story_text_resumido: textoNuevoRelato.substring(0,75),
     last_phrase: ultimaFraseNuevoRelato,
     date: firestore.FieldValue.serverTimestamp(),
     comments: [],
@@ -108,21 +100,37 @@ sendNuevoRelato(textoNuevoRelato: string,
   })
 }
 
-getRelatosHijos(id_relato: string){
-  console.log(id_relato);
-  return this.db.collection('Relatos', ref=>ref
-                                      .where('parent_phrase.id_parent_phrase', '==',id_relato)
-                                     // .where('user_id', '==','WaxMoKqikEcVlktgqqjt8rLJOTm2')
-                                      .orderBy('date','desc')).snapshotChanges().pipe(map(relatosHijos =>{
-    return relatosHijos.map(a =>{
-      const data = a.payload.doc.data() as relato;
-      data.id = a.payload.doc.id;
-
-
-      return data;
-    })
-  }))
+  getRelatosHijos(id_relato: string){
+    console.log(id_relato);
+    return this.db.collection('Relatos', ref=>ref
+      .where('parent_phrase.id_parent_phrase', '==',id_relato)
+      .orderBy('date','desc')).snapshotChanges().pipe(map(relatosHijos =>{
+      
+          return relatosHijos.map(a =>{
+            const data = a.payload.doc.data() as relato;
+            data.id = a.payload.doc.id;
+            return data;
+          })
+    }))
 
   }
 
+
+  getRelatosUser(id_user: string){
+    console.log(id_user);
+
+    return this.db.collection('Relatos', ref=>ref.
+        where('user.uid','==',id_user)
+        .orderBy('date','desc')).snapshotChanges().pipe(map(relatosUser =>{
+                                          
+          return relatosUser.map(a=>{
+            const data = a.payload.doc.data() as relato;
+            data.id = a.payload.doc.id;
+            return data;
+          })
+    }))  
+  }
+
 }
+
+

@@ -8,16 +8,17 @@
 </ion-header>
 
 <ion-content fullscreen>
-<!--
-<div *ngIf="rel">
-    <ion-card *ngFor = "let comentario of rel.comentarios">
-        <ion-card-content>
-            {{comentario.content}}
-        </ion-card-content>
-      </ion-card>
-     
-</div>
- -->
+    <ion-item>
+      <!--
+        <ion-avatar slot="start" >
+          <ion-img [src]="relato.user.image"></ion-img>
+        </ion-avatar>
+        -->
+        <ion-label>
+          <p><b>{{relato.user.name}} {{relato.user.surname}}</b> - 
+            @{{relato.user.username}} - Tiempo relato</p>
+        </ion-label>
+      </ion-item>
  <ion-card>
   <ion-label >
     <ion-card-header>
@@ -41,13 +42,14 @@
 <ion-slides  [options]="slideOpts">
 
   <ion-slide *ngFor="let relatoHijo of relatosHijos" (click)="openRelato(relatoHijo)">
-
+    <!--
       <ion-avatar slot="start">
           <ion-img [src]="relatoHijo.user.image"></ion-img>
       </ion-avatar>
-      <ion-label>
+      -->
+      <ion-label class="relato-slide-label">
       <!--  <h2>{{relatoHijo.FrasePadre.TextoFrasePadre}}</h2>-->
-        <p class="ion-text-justify">{{relatoHijo.story_text}}</p>
+        <p class="ion-text-justify">{{relatoHijo.story_text | slice: 0: 50}}</p>
         <h3 class="ion-text-justify">{{relatoHijo.last_phrase}}</h3>
         <p class="ion-text-justify">{{relato.user.username}} - Tiempo relato</p>
       </ion-label>

@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>user</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+        <!--
+    <ion-list>
+
+          <ion-thumbnail slot="start">
+            <ion-img [src]="user.image"></ion-img>
+          </ion-thumbnail>
+      </ion-list>
+-->
+      <ion-item >
+        <!--
+        <ion-avatar slot="start" >
+          <ion-img [src]="user.image"></ion-img>
+        </ion-avatar>
+        -->
+        <ion-label>
+          <p><b>{{user.name}} {{user.surname}}</b> - 
+            @{{user.username}}</p>
+        </ion-label>
+      </ion-item>
+
+
+    <ion-list>
+        <div *ngFor="let relato of relatosUser" >
+          <!--
+          <ion-item>
+            <ion-avatar slot="start" >
+              <ion-img [src]="relato.user.image"></ion-img>
+            </ion-avatar>
+            <ion-label>
+              <p><b>{{relato.user.name}} {{relato.user.surname}}</b> - 
+                @{{relato.user.username}} - Tiempo relato</p>
+            </ion-label>
+          </ion-item>
+
+          -->
+          <ion-item (click)="openRelato(relato)">
+            <ion-label class="ion-text-wrap">
+              <h2 class="ion-text-justify">{{relato.parent_phrase.text_parent_phrase}}</h2>
+
+              
+          <!--    <p class="ion-text-justify">{{relato.story_text | slice: 0: 300}}</p>-->
+
+
+          
+              <p class="ion-text-justify">{{ (relato.story_text.length>200)? (relato.story_text | slice:0:200)+'...':(relato.story_text) }}</p>
+              <h2 class="ion-text-justify">{{relato.last_phrase}}</h2>
+            </ion-label>
+          </ion-item>
+              <ion-row>
+                  <ion-col>
+                    <div class="ion-text-center">
+                        <ion-icon name="thumbs-up"></ion-icon>
+                        &nbsp;
+                        {{relato.positive_likes}}
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <div class="ion-text-center">
+                        <ion-icon name="thumbs-down"></ion-icon>
+                        &nbsp;
+                        {{relato.negative_likes}}
+                    </div>
+                  </ion-col>
+                  <ion-col>
+                    <div class="ion-text-center"> 
+                        <ion-icon name="share" class="ion-text-left"></ion-icon>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              <hr/>
+        </div>
+    </ion-list>
+
+    
+</ion-content>

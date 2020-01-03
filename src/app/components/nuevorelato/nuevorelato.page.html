@@ -13,11 +13,14 @@
   </ion-label>
 
   <ion-item>
+
+      <ion-label position="floating">Continúe el relato</ion-label>
     <ion-textarea maxlength="850" [(ngModel)]="textoNuevoRelato"></ion-textarea>
     
   </ion-item>
 
   <ion-item>
+      <ion-label position="floating">Escriba la última frase</ion-label>
       <ion-textarea maxlength="75" [(ngModel)]="ultimaFraseNuevoRelato"></ion-textarea>
     <ion-button color="success" (click)="sendNuevoRelato()">
        <ion-icon name="send" ></ion-icon>

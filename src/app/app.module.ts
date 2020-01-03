@@ -14,21 +14,29 @@ import { firebaseConfig } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule }  from '@angular/fire/auth';
 import { AngularFirestoreModule, FirestoreSettingsToken } from "@angular/fire/firestore";
+import { AngularFireStorageModule} from '@angular/fire/storage';
 import { FormsModule} from '@angular/forms';
 
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { Crop } from '@ionic-native/crop/ngx';
+import { Camera } from '@ionic-native/camera';
 
+//import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [FormsModule, BrowserModule, IonicModule.forRoot(), AppRoutingModule,
   AngularFireModule.initializeApp(firebaseConfig),
   AngularFireAuthModule,
-  AngularFirestoreModule],
+  AngularFirestoreModule,
+  AngularFireStorageModule],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: FirestoreSettingsToken, useValue: {} }
+    { provide: FirestoreSettingsToken, useValue: {} },
+    ImagePicker, 
+    Crop
   ],
   bootstrap: [AppComponent]
 })

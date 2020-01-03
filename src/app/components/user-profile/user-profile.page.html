@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>userProfile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item>
+    <ion-label position="floating">Nombre</ion-label>
+    <ion-textarea maxlength="50" [(ngModel)]="Nombre"></ion-textarea>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">Apellido</ion-label>
+  <ion-textarea maxlength="50" [(ngModel)]="Apellido"></ion-textarea>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">Nick</ion-label>
+  <ion-textarea maxlength="50" [(ngModel)]="Username"></ion-textarea>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">Biografía</ion-label>
+  <ion-textarea maxlength="50" [(ngModel)]="Biografia"></ion-textarea>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">Sitio web</ion-label>
+  <ion-textarea maxlength="50" [(ngModel)]="web"></ion-textarea>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">Foto de perfil</ion-label>
+  <ion-textarea maxlength="50" [(ngModel)]="FotoPerfil"></ion-textarea>
+</ion-item>
+
+
+<!--
+<ion-button (change)="uploadUserImage($event.target.files)" expand="block">Imagen de usuario</ion-button>
+-->
+
+<ion-item color="primary">
+  <div class="fileUpload btn btn-primary">
+    <span>Subir imagen de perfil</span>
+    <input
+      id="uploadBtn"
+      type="file"
+      class="upload"
+      (change)="uploadUserImage($event.target.files)"
+    />
+  </div>
+</ion-item>
+
+<!--
+<ion-item>
+  <ion-label position="floating">Imagen fondo</ion-label>
+  <ion-textarea maxlength="50" [(ngModel)]="ImagenFondo"></ion-textarea>
+</ion-item>
+-->
+<!--
+<ion-row class="center">
+  <button ion-button (click)="getPicture(0)">Show Album</button>  
+</ion-row>
+<ion-card>
+<img [src]="captureDataUrl" *ngIf="captureDataUrl"/>
+<button ion-button (click)="upload()" *ngIf="captureDataUrl">Upload to Firebase!</button>
+</ion-card>
+</ion-content>
+-->

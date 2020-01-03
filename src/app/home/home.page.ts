@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../servicios/auth.service';
+import { Router, NavigationExtras} from  '@angular/router';
+
+import * as moment from 'moment';
 
 import { RelatosService, relato } from "../servicios/relatos.service";
+import { UsersService} from "../servicios/users.service";
 import { ModalController, ActionSheetController } from "@ionic/angular";
 
 //import {RelatoComponent} from '../components/relato/relato.component';
 
-import { Router, NavigationExtras} from  '@angular/router';
+
 
 
 @Component({
@@ -17,7 +21,7 @@ import { Router, NavigationExtras} from  '@angular/router';
 export class HomePage implements OnInit{
 
   public relatosCompletos: any = [];
-  public usersTodos: any = [];
+  public user: any;
 
   public relatosUsers: any = [];
 
@@ -25,6 +29,7 @@ export class HomePage implements OnInit{
 
   constructor(private authService: AuthService,
               public relatoService: RelatosService,
+              public usersService: UsersService,
               public router: Router,
               public actionSheetController: ActionSheetController) {}
 
@@ -32,30 +37,19 @@ export class HomePage implements OnInit{
     this.authService.logout();
   }
 
+  goToProfile(){
+
+    this.router.navigate(['user-profile']);
+
+  }
+
+
+
   ngOnInit(){
     this.relatoService.getRelatos().subscribe(relatos => {
         this.relatosCompletos = relatos;
       console.log(this.relatosCompletos);
     })
-   
-    this.relatoService.getUsers().subscribe(users =>{
-      this.usersTodos = users;
-      console.log(this.usersTodos);
-    })
-  
-    for (let i = 0; i < this.relatosCompletos.length; i++) {
-      for (let j = 0; j < this.usersTodos.length; j++) {
-        if(this.relatosCompletos[i].user_id == this.usersTodos[j].uid){
-          var relatoUser = [this.relatosCompletos[i], this.usersTodos[j]];
-
-          this.relatosUsers.push(relatoUser);
-          console.log(relatoUser);
-        }
-        
-        
-      }
-      
-    }
 
   }
 
@@ -73,19 +67,42 @@ export class HomePage implements OnInit{
 
   }
 
+  openUser(user){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        user: user
+      }
+    };
+
+    this.router.navigate(['user'], navigationExtras);
+
+  }
+
+  ago(time){
+    let difference = moment(time).diff(moment());
+    moment.locale('es');
+    return moment.duration(difference).humanize();
+  }
 
   async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Opciones',
       buttons: [{
         text: 'Desconectarse',
-        role: 'destructive',
+     //   role: 'destructive',
         icon: 'log-out',
         handler: () => {
           this.Onlogout();
         }
-      }
-      /*, {
+      },
+      {
+        text: 'Perfil',
+        icon: 'person',
+        handler: () => {
+         this.goToProfile();
+        }
+      },
+      {
         text: 'Share',
         icon: 'share',
         handler: () => {
@@ -106,12 +123,12 @@ export class HomePage implements OnInit{
       }, {
         text: 'Cancel',
         icon: 'close',
-        role: 'cancel',
+    //    role: 'cancel',
         handler: () => {
           console.log('Cancel clicked');
         }
       }
-    */]
+    ]
     });
     await actionSheet.present();
   }

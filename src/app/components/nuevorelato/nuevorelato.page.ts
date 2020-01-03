@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 
 import { RelatosService } from '../../servicios/relatos.service';
+import { UsersService } from '../../servicios/users.service';
 
 @Component({
   selector: 'app-nuevorelato',
@@ -18,7 +19,8 @@ export class NuevorelatoPage implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private relatosService: RelatosService) { 
+              private relatosService: RelatosService,
+              private usersService: UsersService) { 
 
     this.route.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
@@ -29,10 +31,14 @@ export class NuevorelatoPage implements OnInit {
 
   ngOnInit() {
 
-    this.relatosService.getUser(firebase.auth().currentUser.uid.toString()).subscribe(u =>{
-      this.user = u;
-      console.log(this.relatoPadre);
+    this.usersService.getUser(firebase.auth().currentUser.uid.toString()).subscribe(user =>{
+      this.user = user;
+
     })
+
+    console.log("Usuario de nuevo relato");
+    console.log(firebase.auth().currentUser.uid.toString());
+    console.log(this.user);
   }
 
 
